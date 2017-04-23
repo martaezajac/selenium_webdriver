@@ -11,10 +11,17 @@ class WsbPlCheck(unittest.TestCase):
     def test_wsb(self):
         driver=self.driver
         driver.get("http://wsb.pl/wroclaw")
-        driver.maximize_window
-        podyplomowe_link=driver.find_element_by_link_text("Studia podyplomowe")
-        podyplomowe_link.click()
-        sleep(5)
+        search_box=driver.find_element_by_id("edit-search-block-form--2")
+        search_box.send_keys("tester")
+        search_box.submit()
+        sleep(4)
+        results=driver.find_elements_by_class_name("search-result")
+
+        print ("Znalazlem " + str(len(results))+ " wyników na tej stronie:\n")
+
+        for result in results:
+            print(result.text +"\n")
+        self.assertEqual(10,len(results))
 
     def tearDown(self):
         self.driver.quit()
